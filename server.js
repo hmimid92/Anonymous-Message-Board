@@ -17,6 +17,26 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(
+  helmet({
+    xDnsPrefetchControl: { allow: false },
+  }),
+);
+
+app.use(
+  helmet({
+    xFrameOptions: { action: "sameorigin" },
+  }),
+);
+
+app.use(
+  helmet({
+    referrerPolicy: {
+      policy: ["origin", "unsafe-url"],
+    },
+  }),
+);
+
 //Sample front-end
 app.route('/b/:board/')
   .get(function (req, res) {
