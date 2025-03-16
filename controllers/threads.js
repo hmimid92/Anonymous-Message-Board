@@ -8,15 +8,15 @@ const createNewThread = ((req, res) => {
 
 
 
-module.exports = {
-    createNewThread,
-    View10RecentThreads,
-    DeleteThreadIncorrectPassword,
-    DeleteThreadCorrectPassword,
-    ReporteThread,
-    CreateNewReply,
-    ViewThreadReplies,
-    DeleteReplyIncorrectPassword,
-    DeleteReplyCorrectPassword,
-    ReporteReply
-}
+// module.exports = {
+//     createNewThread,
+//     View10RecentThreads,
+//     DeleteThreadIncorrectPassword,
+//     DeleteThreadCorrectPassword,
+//     ReporteThread,
+//     CreateNewReply,
+//     ViewThreadReplies,
+//     DeleteReplyIncorrectPassword,
+//     DeleteReplyCorrectPassword,
+//     ReporteReply
+// }
