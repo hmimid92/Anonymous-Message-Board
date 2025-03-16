@@ -33,7 +33,7 @@ app.use(
 app.use(
   helmet({
     referrerPolicy: {
-      policy: ["self"],
+      policy: ["same-origin"],
     },
   }),
 );
