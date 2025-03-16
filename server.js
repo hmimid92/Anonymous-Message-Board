@@ -33,7 +33,7 @@ app.use(
 app.use(
   helmet({
     referrerPolicy: {
-      policy: ["origin", "unsafe-url"],
+      policy: ["origin"],
     },
   }),
 );
