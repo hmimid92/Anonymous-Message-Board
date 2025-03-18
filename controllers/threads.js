@@ -39,7 +39,8 @@ const createNewThread = (async (req, res) => {
         });
         let threadNewCreated = await threadNew.save();
 
-        res.json(threadNewCreated);
+        // res.json(threadNewCreated);
+        res.sendFile(process.cwd() + '/views/board.html');
     } catch (error) {
       res.json({ error: 'could not post' });
     }
