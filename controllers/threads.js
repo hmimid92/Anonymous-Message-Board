@@ -32,12 +32,12 @@ const createNewThread = (async (req, res) => {
     try {
       let threadNew = new Thread({
           text: varr.text,
-          created_on: new Date(Date.now()),
-          bumped_on: new Date(Date.now()),
-          reported: false,
+          // created_on: new Date(Date.now()),
+          // bumped_on: new Date(Date.now()),
+          // reported: false,
           delete_password: varr.delete_password,
-          replies: [],
-          replycount: 0
+          // replies: [],
+          // replycount: 0
         });
         let threadNewCreated = await threadNew.save();
 
