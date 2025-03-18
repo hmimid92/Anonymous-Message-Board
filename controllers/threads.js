@@ -13,7 +13,8 @@ const ThreadSchema = new Schema({
   bumped_on: Date,
   reported: Boolean,
   delete_password: String,
-  replies: [String]
+  replies: [String],
+  replycount: Number
 });
 
 // const BoardSchema = new Schema({
@@ -35,7 +36,8 @@ const createNewThread = (async (req, res) => {
           bumped_on: new Date(Date.now()),
           reported: false,
           delete_password: varr.delete_password,
-          replies: []
+          replies: [],
+          replycount: 0
         });
         let threadNewCreated = await threadNew.save();
 
