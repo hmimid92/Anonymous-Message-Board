@@ -43,7 +43,6 @@ const createNewThread = (async (req, res) => {
       let threadNew = new Thread({
         text: varr.text,
         delete_password: varr.delete_password,
-        replies: [],
         created_on: new Date(Date.now()),
         bumped_on: new Date(Date.now()),
         reported: false,
