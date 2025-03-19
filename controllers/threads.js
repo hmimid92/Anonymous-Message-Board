@@ -7,22 +7,31 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   () => {console.log('successfully connected')}
 ).catch(errr => console.log(errr));
 
+const ReplySchema = new Schema({
+  text: String,
+  delete_password: String,
+  reported: Boolean,
+  created_on: Date,
+  bumped_on: Date
+});
+
+const Reply = mongoose.model("Reply", ReplySchema);
+
 const ThreadSchema = new Schema({
   text: String,
   created_on: Date,
   bumped_on: Date,
   reported: Boolean,
   delete_password: String,
-  replies: [String],
-  replycount: Number
+  replies: [ReplySchema]
 });
+
+const Thread = mongoose.model("Thread", ThreadSchema);
 
 const BoardSchema = new Schema({
   name: String,
   threads: [ThreadSchema]
 });
-
-const Thread = mongoose.model("Thread", ThreadSchema);
 
 const Board = mongoose.model("Board", BoardSchema);
 
@@ -33,25 +42,28 @@ const createNewThread = (async (req, res) => {
     try {
       let threadNew = new Thread({
         text: varr.text,
+        delete_password: varr.delete_password,
+        replies: [],
         created_on: new Date(Date.now()),
         bumped_on: new Date(Date.now()),
         reported: false,
-        delete_password: varr.delete_password,
-        replies: [],
-        replycount: 0
+        replies: []
       });
-      let threadNewCreated = await threadNew.save();
+      // let threadNewCreated = await threadNew.save();
 
       let boardP = await Board.findOne({ name: board });
         if (!boardP) {
           let boardNameNew = new Board({
             name: board,
-            threads: [].push(threadNewCreated)
+            threads: []
           });
-          let boardNameNewSv = await boardNameNew.save();
+          boardNameNew.threads.push(threadNew);
+          await boardNameNew.save();
+          res.json(threadNew);
+        } else {
+          boardP.threads.push(threadNew);
+          res.json(threadNew);
         }
-      
-        res.json(threadNewCreated);
     } catch (error) {
       res.json({ error: 'could not post' });
     }
