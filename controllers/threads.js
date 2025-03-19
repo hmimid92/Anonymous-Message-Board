@@ -17,32 +17,41 @@ const ThreadSchema = new Schema({
   replycount: Number
 });
 
-// const BoardSchema = new Schema({
-//   name: String
-// });
+const BoardSchema = new Schema({
+  name: String,
+  threads: [ThreadSchema]
+});
 
 const Thread = mongoose.model("Thread", ThreadSchema);
 
-// const Board = mongoose.model("Board", BoardSchema);
+const Board = mongoose.model("Board", BoardSchema);
 
 const createNewThread = (async (req, res) => {
     let varr = req.body;
-    // let board = req.params.board;
+    let board = req.params.board;
     // // console.log(varr)
     try {
       let threadNew = new Thread({
-          text: varr.text,
-          created_on: new Date(Date.now()),
-          bumped_on: new Date(Date.now()),
-          reported: false,
-          delete_password: varr.delete_password,
-          replies: [],
-          replycount: 0
-        });
-        let threadNewCreated = await threadNew.save();
+        text: varr.text,
+        created_on: new Date(Date.now()),
+        bumped_on: new Date(Date.now()),
+        reported: false,
+        delete_password: varr.delete_password,
+        replies: [],
+        replycount: 0
+      });
+      let threadNewCreated = await threadNew.save();
 
+      let boardP = await Board.findOne({ name: board });
+        if (!boardP) {
+          let boardNameNew = new Board({
+            name: board,
+            threads: [].push(threadNewCreated)
+          });
+          let boardNameNewSv = await boardNameNew.save();
+        }
+      
         res.json(threadNewCreated);
-        // res.sendFile(process.cwd() + '/views/board.html');
     } catch (error) {
       res.json({ error: 'could not post' });
     }
