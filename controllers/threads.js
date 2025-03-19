@@ -45,6 +45,7 @@ const createNewThread = (req, res) => {
       let threadNew = new Thread({
         text: varr.text,
         delete_password: varr.delete_password,
+        replies: []
       });
       // let threadNewCreated = await threadNew.save();
 
