@@ -43,10 +43,6 @@ const createNewThread = (async (req, res) => {
       let threadNew = new Thread({
         text: varr.text,
         delete_password: varr.delete_password,
-        created_on: new Date(Date.now()),
-        bumped_on: new Date(Date.now()),
-        reported: false,
-        replies: []
       });
       // let threadNewCreated = await threadNew.save();
 
@@ -58,16 +54,10 @@ const createNewThread = (async (req, res) => {
           });
           boardNameNew.threads.push(threadNew);
           await boardNameNew.save();
-          res.json({
-            text: varr.text,
-            delete_password: varr.delete_password,
-          });
+          res.json(threadNew);
         } else {
           boardP.threads.push(threadNew);
-          res.json({
-            text: varr.text,
-            delete_password: varr.delete_password,
-          });
+          res.json(threadNew);
         }
     } catch (error) {
       res.json({ error: 'could not post' });
