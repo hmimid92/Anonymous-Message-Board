@@ -9,13 +9,12 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 const dt = new Date(Date.now());
 
-
 const ReplySchema = new Schema({
   text: String,
   delete_password: String,
   reported: {type:Boolean, default: false},
-  created_on: {type:Boolean, default: false},
-  bumped_on: {type:Boolean, default: false},
+  created_on: {type:Boolean, default: dt},
+  bumped_on: {type:Boolean, default: dt},
 });
 
 const Reply = mongoose.model("Reply", ReplySchema);
@@ -38,7 +37,7 @@ const BoardSchema = new Schema({
 
 const Board = mongoose.model("Board", BoardSchema);
 
-const createNewThread = (async (req, res) => {
+const createNewThread = (req, res) => {
     let varr = req.body;
     let board = req.params.board;
     // // console.log(varr)
@@ -49,14 +48,14 @@ const createNewThread = (async (req, res) => {
       });
       // let threadNewCreated = await threadNew.save();
 
-      let boardP = await Board.findOne({ name: board });
+      let boardP = Board.findOne({ name: board });
         if (!boardP) {
           let boardNameNew = new Board({
             name: board,
             threads: []
           });
           boardNameNew.threads.push(threadNew);
-          await boardNameNew.save();
+          boardNameNew.save();
           res.json(threadNew);
         } else {
           boardP.threads.push(threadNew);
@@ -65,7 +64,7 @@ const createNewThread = (async (req, res) => {
     } catch (error) {
       res.json({ error: 'could not post' });
     }
-  });
+  };
 
 
 
