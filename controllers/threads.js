@@ -10,18 +10,20 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 const ReplySchema = new Schema({
   text: String,
   delete_password: String,
-  reported: Boolean,
-  created_on: Date,
-  bumped_on: Date
+  reported: {type:Boolean, default: false},
+  created_on: {type:Boolean, default: false},
+  bumped_on: {type:Boolean, default: false},
 });
 
 const Reply = mongoose.model("Reply", ReplySchema);
 
+const dt = new Date(Date.now());
+
 const ThreadSchema = new Schema({
   text: String,
-  created_on: Date,
-  bumped_on: Date,
-  reported: Boolean,
+  created_on: {type: Date, default: dt},
+  bumped_on: {type: Date, default: dt},
+  reported: {type:Boolean, default: false},
   delete_password: String,
   replies: [ReplySchema]
 });
