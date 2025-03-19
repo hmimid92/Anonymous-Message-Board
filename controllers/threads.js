@@ -58,10 +58,16 @@ const createNewThread = (async (req, res) => {
           });
           boardNameNew.threads.push(threadNew);
           await boardNameNew.save();
-          res.json(threadNew);
+          res.json({
+            text: varr.text,
+            delete_password: varr.delete_password,
+          });
         } else {
           boardP.threads.push(threadNew);
-          res.json(threadNew);
+          res.json({
+            text: varr.text,
+            delete_password: varr.delete_password,
+          });
         }
     } catch (error) {
       res.json({ error: 'could not post' });
