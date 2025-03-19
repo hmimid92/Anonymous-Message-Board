@@ -7,6 +7,9 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   () => {console.log('successfully connected')}
 ).catch(errr => console.log(errr));
 
+const dt = new Date(Date.now());
+
+
 const ReplySchema = new Schema({
   text: String,
   delete_password: String,
@@ -16,8 +19,6 @@ const ReplySchema = new Schema({
 });
 
 const Reply = mongoose.model("Reply", ReplySchema);
-
-const dt = new Date(Date.now());
 
 const ThreadSchema = new Schema({
   text: String,
