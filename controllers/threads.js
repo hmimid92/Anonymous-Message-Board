@@ -49,8 +49,6 @@ const createNewThread = (req, res) => {
         delete_password: varr.delete_password,
         replies: []
       });
-      let threadNewCreated = threadNew.save();
-
       Board.findOne({ name: br },(er,d) => {
         if (!d) {
           let boardNameNew = new Board({
