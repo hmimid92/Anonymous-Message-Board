@@ -37,38 +37,46 @@ const BoardSchema = new Schema({
 
 const Board = mongoose.model("Board", BoardSchema);
 
-const createNewThread = async (req, res) => {
+const createNewThread = (req, res) => {
     let varr = req.body;
-    // let br = req.body.board;
-    // // console.log(varr)
-    // if(!br) {
-    //   br = req.params.board;
-    // }
+    let br = req.body.board;
+    if(!br) {
+      br = req.params.board;
+    }
     try {
       let threadNew = new Thread({
         text: varr.text,
         delete_password: varr.delete_password,
         replies: []
       });
-      let threadNewCreated = await threadNew.save();
-      res.json(threadNewCreated);
-      // let threadNewCreated = await threadNew.save();
+      let threadNewCreated = threadNew.save();
 
-      // let boardP = await Board.findOne({ name: br });
-      //   if (!boardP) {
-      //     let boardNameNew = new Board({
-      //       name: br,
-      //       threads: []
-      //     });
-      //     boardNameNew.threads.push(threadNew);
-      //     await boardNameNew.save();
-      //     res.json(threadNew);
-      //   } else {
-      //     boardP.threads.push(threadNew);
-      //     console.log(boardP)
-      //     await boardP.save();
-      //     res.json(threadNew);
-      //   }
+      Board.findOne({ name: br },(er,d) => {
+        if (!d) {
+          let boardNameNew = new Board({
+            name: br,
+            threads: []
+          });
+          boardNameNew.threads.push(threadNew);
+          boardNameNew.save((er,d1) => {
+            if(er || !d1) {
+              res.json({ error: 'could not post' });
+            } else {
+              res.json(threadNew);
+            }
+          });
+          res.json(threadNew);
+        } else {
+          d.threads.push(threadNew);
+          d.save((er,d1) => {
+            if(er || !d1) {
+              res.json({ error: 'could not post' });
+            } else {
+              res.json(threadNew);
+            }
+          });
+        }
+      });
     } catch (error) {
       res.json({ error: 'could not post' });
     }
