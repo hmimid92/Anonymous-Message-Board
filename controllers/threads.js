@@ -39,7 +39,7 @@ const Board = mongoose.model("Board", BoardSchema);
 
 const createNewThread = async (req, res) => {
     let varr = req.body;
-    let board = req.params.board;
+    let board = req.body.board;
     // // console.log(varr)
     try {
       let threadNew = new Thread({
@@ -69,7 +69,7 @@ const createNewThread = async (req, res) => {
   };
 
   const View10RecentThreads = async (req, res) => {
-     let br = req.params.board;
+     let br = req.body.board;
      let boardName = await Board.findOne({ name: br }).select("threads").limit(1);
     //  console.log(boardName)
      res.json(boardName);
