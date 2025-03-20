@@ -38,46 +38,43 @@ const BoardSchema = new Schema({
 const Board = mongoose.model("Board", BoardSchema);
 
 const createNewThread = (req, res) => {
-    let varr = req.body;
-    let br = req.body.board;
-    if(!br) {
-      br = req.params.board;
-    }
-    try {
-      let threadNew = new Thread({
-        text: varr.text,
-        delete_password: varr.delete_password,
-        replies: []
+  const { text, delete_password } = req.body;
+  let board = req.body.board;
+  if (!board) {
+    board = req.params.board;
+  }
+  const newThread = new Thread({
+    text: text,
+    delete_password: delete_password,
+    replies: [],
+  });
+  Board.findOne({ name: board }, (err, Boarddata) => {
+    if (!Boarddata) {
+      const newBoard = new Board({
+        name: board,
+        threads: [],
       });
-      Board.findOne({ name: br },(er,d) => {
-        if (!d) {
-          let boardNameNew = new Board({
-            name: br,
-            threads: []
-          });
-          boardNameNew.threads.push(threadNew);
-          boardNameNew.save((er,d1) => {
-            if(er || !d1) {
-              res.json({ error: 'could not post' });
-            } else {
-              res.json(threadNew);
-            }
-          });
+      newBoard.threads.push(newThread);
+      newBoard.save((err, data) => {
+        if (err || !data) {
+          console.log(err);
+          res.send("There was an error saving in post");
         } else {
-          d.threads.push(threadNew);
-          d.save((er,d1) => {
-            if(er || !d1) {
-              res.json({ error: 'could not post' });
-            } else {
-              res.json(threadNew);
-            }
-          });
+          res.json(newThread);
         }
       });
-    } catch (error) {
-      res.json({ error: 'could not post' });
+    } else {
+      Boarddata.threads.push(newThread);
+      Boarddata.save((err, data) => {
+        if (err || !data) {
+          res.send("There was an error saving in post");
+        } else {
+          res.json(newThread);
+        }
+      });
     }
-  };
+  });
+};
 
 
 module.exports = {
