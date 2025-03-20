@@ -65,7 +65,6 @@ const createNewThread = (req, res) => {
               res.json(threadNew);
             }
           });
-          res.json(threadNew);
         } else {
           d.threads.push(threadNew);
           d.save((er,d1) => {
