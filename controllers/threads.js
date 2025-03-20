@@ -39,34 +39,36 @@ const Board = mongoose.model("Board", BoardSchema);
 
 const createNewThread = async (req, res) => {
     let varr = req.body;
-    let br = req.body.board;
+    // let br = req.body.board;
     // // console.log(varr)
-    if(!br) {
-      br = req.params.board;
-    }
+    // if(!br) {
+    //   br = req.params.board;
+    // }
     try {
       let threadNew = new Thread({
         text: varr.text,
         delete_password: varr.delete_password,
         replies: []
       });
+      let threadNewCreated = await threadNew.save();
+      res.json(threadNewCreated);
       // let threadNewCreated = await threadNew.save();
 
-      let boardP = await Board.findOne({ name: br });
-        if (!boardP) {
-          let boardNameNew = new Board({
-            name: br,
-            threads: []
-          });
-          boardNameNew.threads.push(threadNew);
-          await boardNameNew.save();
-          res.json(threadNew);
-        } else {
-          boardP.threads.push(threadNew);
-          console.log(boardP)
-          await boardP.save();
-          res.json(threadNew);
-        }
+      // let boardP = await Board.findOne({ name: br });
+      //   if (!boardP) {
+      //     let boardNameNew = new Board({
+      //       name: br,
+      //       threads: []
+      //     });
+      //     boardNameNew.threads.push(threadNew);
+      //     await boardNameNew.save();
+      //     res.json(threadNew);
+      //   } else {
+      //     boardP.threads.push(threadNew);
+      //     console.log(boardP)
+      //     await boardP.save();
+      //     res.json(threadNew);
+      //   }
     } catch (error) {
       res.json({ error: 'could not post' });
     }
