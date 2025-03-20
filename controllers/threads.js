@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   () => {console.log('successfully connected')}
 ).catch(errr => console.log(errr));
 
-const dt = new Date(Date.now());
+const dt = new Date();
 
 const ReplySchema = new Schema({
   text: String,
