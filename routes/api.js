@@ -1,41 +1,84 @@
-'use strict';
+'use strict'
+require('dotenv').config();
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
- const  { 
-  createNewThread
-  // View10RecentThreads
-  // DeleteThreadIncorrectPassword,
-  // DeleteThreadCorrectPassword,
-  // ReporteThread,
-  // CreateNewReply,
-  // ViewThreadReplies,
-  // DeleteReplyIncorrectPassword,
-  // DeleteReplyCorrectPassword,
-  // ReporteReply
- } = require('../controllers/threads.js');
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }).then(
+  () => {console.log('successfully connected')}
+).catch(errr => console.log(errr));
+
+const dt = new Date();
+
+const ReplySchema = new Schema({
+  text: String,
+  delete_password: String,
+  reported: {type:Boolean, default: false},
+  created_on: {type:Boolean, default: dt},
+  bumped_on: {type:Boolean, default: dt},
+});
+
+const Reply = mongoose.model("Reply", ReplySchema);
+
+const ThreadSchema = new Schema({
+  text: String,
+  created_on: {type: Date, default: dt},
+  bumped_on: {type: Date, default: dt},
+  reported: {type:Boolean, default: false},
+  delete_password: String,
+  replies: [ReplySchema]
+});
+
+const Thread = mongoose.model("Thread", ThreadSchema);
+
+const BoardSchema = new Schema({
+  name: String,
+  threads: [ThreadSchema]
+});
+
+const Board = mongoose.model("Board", BoardSchema);
+ 
 
 module.exports = function (app) {
 
-  app.route('/api/threads/:board').post(createNewThread);
-
-  // app.route('/api/threads/:board').get(View10RecentThreads);
-
-  // app.route('/api/threads/:board').delete(DeleteThreadIncorrectPassword)
-
-  // app.route('/api/threads/:board').delete(DeleteThreadCorrectPassword)
-
-  // app.route('/api/threads/:board').put(ReporteThread) 
-
-  // app.route('/api/replies/:board').post(CreateNewReply)
-
-  // app.route('/api/replies/:board').get(ViewThreadReplies)
-
-  // app.route('/api/replies/:board').delete(DeleteReplyIncorrectPassword)
-
-  // app.route('/api/replies/:board').delete(DeleteReplyCorrectPassword)
-
-  // app.route('/api/replies/:board').put(ReporteReply)
-
-  // app.route('/api/threads/:board');
+  app.route('/api/threads/:board').post(
+    (req, res) => {
+      const { text, delete_password } = req.body;
+      let board = req.body.board;
+      if (!board) {
+        board = req.params.board;
+      }
+      const newThread = new Thread({
+        text: text,
+        delete_password: delete_password,
+        replies: [],
+      });
+      Board.findOne({ name: board }, (err, Boarddata) => {
+        if (!Boarddata) {
+          const newBoard = new Board({
+            name: board,
+            threads: [],
+          });
+          newBoard.threads.push(newThread);
+          newBoard.save((err, data) => {
+            if (err || !data) {
+              res.send("There was an error saving in post");
+            } else {
+              res.json(newThread);
+            }
+          });
+        } else {
+          Boarddata.threads.push(newThread);
+          Boarddata.save((err, data) => {
+            if (err || !data) {
+              res.send("There was an error saving in post");
+            } else {
+              res.json(newThread);
+            }
+          });
+        }
+      });
+    }
+  );
     
   // app.route('/api/replies/:board');
 };
