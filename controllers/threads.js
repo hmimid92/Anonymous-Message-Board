@@ -39,8 +39,11 @@ const Board = mongoose.model("Board", BoardSchema);
 
 const createNewThread = async (req, res) => {
     let varr = req.body;
-    let board = req.body.board;
+    let br = req.body.board;
     // // console.log(varr)
+    if(!br) {
+      br = req.params.board;
+    }
     try {
       let threadNew = new Thread({
         text: varr.text,
@@ -49,10 +52,10 @@ const createNewThread = async (req, res) => {
       });
       // let threadNewCreated = await threadNew.save();
 
-      let boardP = await Board.findOne({ name: board });
+      let boardP = await Board.findOne({ name: br });
         if (!boardP) {
           let boardNameNew = new Board({
-            name: board,
+            name: br,
             threads: []
           });
           boardNameNew.threads.push(threadNew);
@@ -60,6 +63,7 @@ const createNewThread = async (req, res) => {
           res.json(threadNew);
         } else {
           boardP.threads.push(threadNew);
+          console.log(boardP)
           await boardP.save();
           res.json(threadNew);
         }
@@ -68,17 +72,10 @@ const createNewThread = async (req, res) => {
     }
   };
 
-  const View10RecentThreads = async (req, res) => {
-     let br = req.body.board;
-     let boardName = await Board.findOne({ name: br }).select("threads").limit(1);
-    //  console.log(boardName)
-     res.json(boardName);
-  };
-
 
 module.exports = {
-    createNewThread,
-    View10RecentThreads
+    createNewThread
+    // View10RecentThreads
     // DeleteThreadIncorrectPassword,
     // DeleteThreadCorrectPassword,
     // ReporteThread,
