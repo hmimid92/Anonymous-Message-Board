@@ -37,7 +37,7 @@ const BoardSchema = new Schema({
 
 const Board = mongoose.model("Board", BoardSchema);
 
-const createNewThread = (req, res) => {
+const createNewThread = async (req, res) => {
     let varr = req.body;
     let board = req.params.board;
     // // console.log(varr)
@@ -49,17 +49,18 @@ const createNewThread = (req, res) => {
       });
       // let threadNewCreated = await threadNew.save();
 
-      let boardP = Board.findOne({ name: board });
+      let boardP = await Board.findOne({ name: board });
         if (!boardP) {
           let boardNameNew = new Board({
             name: board,
             threads: []
           });
           boardNameNew.threads.push(threadNew);
-          boardNameNew.save();
+          await boardNameNew.save();
           res.json(threadNew);
         } else {
           boardP.threads.push(threadNew);
+          await boardP.save();
           res.json(threadNew);
         }
     } catch (error) {
@@ -67,13 +68,17 @@ const createNewThread = (req, res) => {
     }
   };
 
-
-
+  const View10RecentThreads = async (req, res) => {
+     let br = req.params.board;
+     let boardName = await Board.findOne({ name: br }).select("threads").limit(1);
+    //  console.log(boardName)
+     res.json(boardName);
+  };
 
 
 module.exports = {
-    createNewThread
-    // View10RecentThreads,
+    createNewThread,
+    View10RecentThreads
     // DeleteThreadIncorrectPassword,
     // DeleteThreadCorrectPassword,
     // ReporteThread,
