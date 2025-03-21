@@ -9,15 +9,15 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 const dt = new Date();
 
-// const ReplySchema = new Schema({
-//   text: String,
-//   delete_password: String,
-//   reported: {type:Boolean, default: false},
-//   created_on: {type:Date, default: dt},
-//   bumped_on: {type:Date, default: dt}
-// });
+const ReplySchema = new Schema({
+  text: String,
+  delete_password: String,
+  reported: {type:Boolean, default: false},
+  created_on: {type:Date, default: dt},
+  bumped_on: {type:Date, default: dt}
+});
 
-// const Reply = mongoose.model("Reply", ReplySchema);
+const Reply = mongoose.model("Reply", ReplySchema);
 
 const ThreadSchema = new Schema({
   text: String,
@@ -30,14 +30,14 @@ const ThreadSchema = new Schema({
 
 const Thread = mongoose.model("Thread", ThreadSchema);
 
-// const BoardSchema = new Schema({
-//   name: String,
-//   threads: [ThreadSchema]
-// });
+const BoardSchema = new Schema({
+  name: String,
+  threads: [ThreadSchema]
+});
 
-// const Board = mongoose.model("Board", BoardSchema);
+const Board = mongoose.model("Board", BoardSchema);
 
-const createNewThread = (req, res) => {
+const createNewThread = async (req, res) => {
     let varr = req.body;
     let br = req.body.board;
     if(!br) {
@@ -49,8 +49,9 @@ const createNewThread = (req, res) => {
         delete_password: varr.delete_password,
         replies: []
       });
-      threadNew.save();
-      res.json(threadNew);
+      const threadSaved = await threadNew.save();
+      console.log(threadSaved)
+      res.json(threadSaved);
     } catch (error) {
       res.json({ error: 'could not post' });
     }
