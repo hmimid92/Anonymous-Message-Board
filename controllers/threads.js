@@ -13,8 +13,8 @@ const ReplySchema = new Schema({
   text: String,
   delete_password: String,
   reported: {type:Boolean, default: false},
-  created_on: {type:Boolean, default: dt},
-  bumped_on: {type:Boolean, default: dt},
+  created_on: {type:Date, default: dt},
+  bumped_on: {type:Date, default: dt}
 });
 
 const Reply = mongoose.model("Reply", ReplySchema);
