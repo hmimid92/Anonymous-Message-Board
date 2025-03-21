@@ -57,7 +57,7 @@ const createNewThread = async (req, res) => {
   };
 
   const CreateNewReply = async (req, res) => {
-    const {text, delete_password, thread_id,brd} = req.body;
+    let {text, delete_password, thread_id,brd} = req.body;
     if(!brd) {
       brd = req.params.board;
     }
