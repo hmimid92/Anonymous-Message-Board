@@ -25,7 +25,7 @@ const ThreadSchema = new Schema({
   bumped_on: {type: Date, default: dt},
   reported: {type:Boolean, default: false},
   delete_password: String,
-  replies: [String]
+  replies: [ReplySchema]
 });
 
 const Thread = mongoose.model("Thread", ThreadSchema);
