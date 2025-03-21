@@ -50,14 +50,14 @@ const createNewThread = async (req, res) => {
         replies: []
       });
       const threadSaved = await threadNew.save();
-      // res.json(threadSaved);
+      res.json(threadSaved);
     } catch (error) {
       res.json({ error: 'could not post' });
     }
   };
 
   const CreateNewReply = async (req, res) => {
-    let {text, delete_password, thread_id,brd} = req.body;
+    const {text, delete_password, thread_id,brd} = req.body;
     if(!brd) {
       brd = req.params.board;
     }
@@ -70,7 +70,7 @@ const createNewThread = async (req, res) => {
       });
       thread.replies.push(replyNew);
       const threadSaved = await thread.save();
-      // res.json(threadSaved);
+      res.json(threadSaved);
     } catch (error) {
       res.json({ error: 'could not post' });
     }
