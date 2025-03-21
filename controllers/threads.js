@@ -49,31 +49,8 @@ const createNewThread = (req, res) => {
         delete_password: varr.delete_password,
         replies: []
       });
-      Board.findOne({ name: br },(er,d) => {
-        if (!d) {
-          let boardNameNew = new Board({
-            name: br,
-            threads: []
-          });
-          boardNameNew.threads.push(threadNew);
-          boardNameNew.save((er,d1) => {
-            if(er || !d1) {
-              res.json({ error: 'could not post' });
-            } else {
-              res.json(threadNew);
-            }
-          });
-        } else {
-          d.threads.push(threadNew);
-          d.save((er,d1) => {
-            if(er || !d1) {
-              res.json({ error: 'could not post' });
-            } else {
-              res.json(threadNew);
-            }
-          });
-        }
-      });
+      threadNew.save();
+      res.json(threadNew);
     } catch (error) {
       res.json({ error: 'could not post' });
     }
