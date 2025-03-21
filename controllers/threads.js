@@ -70,7 +70,7 @@ const createNewThread = async (req, res) => {
       });
       thread.replies.push(replyNew);
       const threadSaved = await thread.save();
-      res.json(threadSaved);
+      res.json(replyNew);
     } catch (error) {
       res.json({ error: 'could not post' });
     }
