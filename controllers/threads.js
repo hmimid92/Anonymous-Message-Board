@@ -9,15 +9,15 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 const dt = new Date();
 
-const ReplySchema = new Schema({
-  text: String,
-  delete_password: String,
-  reported: {type:Boolean, default: false},
-  created_on: {type:Date, default: dt},
-  bumped_on: {type:Date, default: dt}
-});
+// const ReplySchema = new Schema({
+//   text: String,
+//   delete_password: String,
+//   reported: {type:Boolean, default: false},
+//   created_on: {type:Date, default: dt},
+//   bumped_on: {type:Date, default: dt}
+// });
 
-const Reply = mongoose.model("Reply", ReplySchema);
+// const Reply = mongoose.model("Reply", ReplySchema);
 
 const ThreadSchema = new Schema({
   text: String,
@@ -25,17 +25,17 @@ const ThreadSchema = new Schema({
   bumped_on: {type: Date, default: dt},
   reported: {type:Boolean, default: false},
   delete_password: String,
-  replies: [ReplySchema]
+  replies: [String]
 });
 
 const Thread = mongoose.model("Thread", ThreadSchema);
 
-const BoardSchema = new Schema({
-  name: String,
-  threads: [ThreadSchema]
-});
+// const BoardSchema = new Schema({
+//   name: String,
+//   threads: [ThreadSchema]
+// });
 
-const Board = mongoose.model("Board", BoardSchema);
+// const Board = mongoose.model("Board", BoardSchema);
 
 const createNewThread = (req, res) => {
     let varr = req.body;
