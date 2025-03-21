@@ -49,17 +49,20 @@ const createNewThread = async (req, res) => {
         delete_password: varr.delete_password,
         replies: []
       });
-      const threadSaved = await threadNew.save();
-      res.json(threadSaved);
+      await threadNew.save();
+      res.json({
+        text: varr.text,
+        delete_password: varr.delete_password
+      });
     } catch (error) {
       res.json({ error: 'could not post' });
     }
   };
 
   const CreateNewReply = async (req, res) => {
-    let {text, delete_password, thread_id,brd} = req.body;
-    if(!brd) {
-      brd = req.params.board;
+    let {text, delete_password, thread_id,board} = req.body;
+    if(!board) {
+      board = req.params.board;
     }
     try {
       let thread = await Thread.findOne({ _id: thread_id });
@@ -69,8 +72,12 @@ const createNewThread = async (req, res) => {
         bumped_on: new Date(Date.now())
       });
       thread.replies.push(replyNew);
-      const threadSaved = await thread.save();
-      res.json(replyNew);
+      await thread.save();
+      res.json({
+        text: text,
+        delete_password: delete_password,
+        thread_id: thread_id
+      });
     } catch (error) {
       res.json({ error: 'could not post' });
     }
