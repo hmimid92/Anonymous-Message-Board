@@ -1,12 +1,12 @@
 "use strict";
 
 const  { 
-  createNewThread
+  createNewThread,
   // View10RecentThreads
   // DeleteThreadIncorrectPassword,
   // DeleteThreadCorrectPassword,
   // ReporteThread,
-  // CreateNewReply,
+  CreateNewReply
   // ViewThreadReplies,
   // DeleteReplyIncorrectPassword,
   // DeleteReplyCorrectPassword,
@@ -25,7 +25,7 @@ module.exports = function (app) {
 
   // app.route('/api/threads/:board').put(ReporteThread) 
 
-  // app.route('/api/replies/:board').post(CreateNewReply)
+  app.route('/api/replies/:board').post(CreateNewReply);
 
   // app.route('/api/replies/:board').get(ViewThreadReplies)
 

@@ -50,8 +50,27 @@ const createNewThread = async (req, res) => {
         replies: []
       });
       const threadSaved = await threadNew.save();
-      console.log(threadSaved)
-      res.json(threadSaved);
+      // res.json(threadSaved);
+    } catch (error) {
+      res.json({ error: 'could not post' });
+    }
+  };
+
+  const CreateNewReply = async (req, res) => {
+    let {text, delete_password, thread_id,brd} = req.body;
+    if(!brd) {
+      brd = req.params.board;
+    }
+    try {
+      let thread = await Thread.findOne({ _id: thread_id });
+      let replyNew = new Reply({
+        text: text,
+        delete_password: delete_password,
+        bumped_on: new Date(Date.now())
+      });
+      thread.replies.push(replyNew);
+      const threadSaved = await thread.save();
+      // res.json(threadSaved);
     } catch (error) {
       res.json({ error: 'could not post' });
     }
@@ -59,12 +78,12 @@ const createNewThread = async (req, res) => {
 
 
 module.exports = {
-    createNewThread
+    createNewThread,
     // View10RecentThreads
     // DeleteThreadIncorrectPassword,
     // DeleteThreadCorrectPassword,
     // ReporteThread,
-    // CreateNewReply,
+    CreateNewReply
     // ViewThreadReplies,
     // DeleteReplyIncorrectPassword,
     // DeleteReplyCorrectPassword,
