@@ -50,6 +50,7 @@ const createNewThread = async (req, res) => {
       });
       await threadNew.save();
       res.json({
+        _id: threadNew._id,
         text: varr.text,
         delete_password: varr.delete_password
       });
