@@ -44,13 +44,22 @@ const createNewThread = async (req, res) => {
       br = req.params.board;
     }
     try {
+      let boardE = await Board.findOne({ name: br });
       let threadNew = new Thread({
         text: varr.text,
         delete_password: varr.delete_password
       });
-      await threadNew.save();
+      if(!boardE) {
+        let newBoard = new Board({
+          name: br
+        });
+        newBoard.threads.push(threadNew);
+        await newBoard.save();
+      } else {
+        boardE.threads.push(threadNew);
+        await boardE.save();
+      }
       res.json({
-        _id: threadNew._id,
         text: varr.text,
         delete_password: varr.delete_password
       });
@@ -65,14 +74,21 @@ const createNewThread = async (req, res) => {
       board = req.params.board;
     }
     try {
-      let thread = await Thread.findOne({ _id: thread_id });
+      let boardF = await Board.findOne({ name: board});
       let replyNew = new Reply({
         text: text,
         delete_password: delete_password,
         bumped_on: new Date(Date.now())
       });
-      thread.replies.push(replyNew);
-      await thread.save();
+      let gg = boardF.threads.map(el => {
+        if(el['_id'] == thread_id) {
+          el['replies'].push(replyNew);
+          return el;
+        }
+        return el;
+      });
+      boardF.threads = gg;
+      await boardF.save();
       res.json({
         text: text,
         delete_password: delete_password,
