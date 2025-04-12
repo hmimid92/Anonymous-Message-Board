@@ -222,7 +222,7 @@ const createNewThread = async (req, res) => {
   };
 
   const DeleteReply = async (req, res) => {
-    let {board,thread_id, reply_id, delete_password}= req.body;
+    let {board,thread_id, reply_id, delete_password} = req.body;
     if(!board) {
       board = req.params.board;
     }
