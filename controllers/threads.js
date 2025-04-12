@@ -233,7 +233,7 @@ const createNewThread = async (req, res) => {
       if(el['_id'].toString() === thread_id) {
         let repl = el['replies'].map(e => {
           if(e['_id'].toString() === reply_id) {
-            e['text'] = '[deleted]';
+            e['text'] = "[deleted]";
             return e;
           } else {
             return e;
