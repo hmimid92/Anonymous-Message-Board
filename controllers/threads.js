@@ -118,7 +118,7 @@ const createNewThread = async (req, res) => {
               if(k <= 2) {
                 return {
                   text: ell.text,
-                  _id: ell.thread_id,
+                  _id: ell._id,
                   created_on: ell.created_on,
                 };
               }
@@ -205,7 +205,7 @@ const createNewThread = async (req, res) => {
                   replies: el.replies.map(ee => {
                     return {
                       text: ee.text,
-                      _id: ee.thread_id,
+                      _id: ee._id,
                       created_on: ee.created_on,
                     };
                   })
