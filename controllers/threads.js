@@ -232,7 +232,7 @@ const createNewThread = async (req, res) => {
       if((el['delete_password'] === delete_password) && (checkPassword === 0)) {
         checkPassword += 1;
       }
-      if(el['_id'].toString() == thread_id) {
+      if(el['_id'].toString() === thread_id) {
         let repl = el['replies'].map(e => {
           if(e['_id'].toString() === reply_id) {
             e['text'] = '[deleted]';
