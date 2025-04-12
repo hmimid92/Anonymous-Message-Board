@@ -116,7 +116,12 @@ const createNewThread = async (req, res) => {
           if(i <= 9) {
             let recentReply = el.replies.map((ell,k) => {
               if(k <= 2) {
-                return ell;
+                return {
+                  text: ell.text,
+                  thread_id: ell.thread_id,
+                  created_on: ell.created_on,
+                  bumped_on: ell.bumped_on
+                };
               }
             }).filter(ell => ell != undefined).sort().reverse();
             return {
@@ -198,7 +203,14 @@ const createNewThread = async (req, res) => {
                   text: el.text,
                   created_on: el.created_on,
                   bumped_on: el.bumped_on,
-                  replies: el.replies
+                  replies: el.replies.map(ee => {
+                    return {
+                      text: ee.text,
+                      thread_id: ee.thread_id,
+                      created_on: ee.created_on,
+                      bumped_on: ee.bumped_on
+                    };
+                  })
                 };
               }
           }).filter(el => el !== undefined).sort().reverse();
