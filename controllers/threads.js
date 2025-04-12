@@ -118,7 +118,7 @@ const createNewThread = async (req, res) => {
               if(k <= 2) {
                 return ell;
               }
-            }).filter(ell => ell != undefined);
+            }).filter(ell => ell != undefined).sort().reverse();
             return {
               _id: el._id,
               text: el.text,
@@ -201,7 +201,7 @@ const createNewThread = async (req, res) => {
                   replies: el.replies
                 };
               }
-          }).filter(el => el !== undefined);
+          }).filter(el => el !== undefined).sort().reverse();
           res.json(results[0]);
         }
       } catch (error) {
