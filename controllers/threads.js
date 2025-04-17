@@ -147,10 +147,12 @@ const createNewThread = async (req, res) => {
     }
     let checkPassword = 0;
     let boardE = await Board.findOne({ name: board });
+    boardE.threads.map(el => {
+      if((el['delete_password'] === delete_password) && (checkPassword === 0)) {
+        checkPassword += 1;
+      }
+    });
     let filterBoard = boardE.threads.map(el => {
-         if((el['delete_password'] === delete_password) && (checkPassword === 0)) {
-           checkPassword += 1;
-         }
          if(el['_id'].toString() === thread_id) {
              return undefined;
           } 
@@ -159,9 +161,9 @@ const createNewThread = async (req, res) => {
     if(checkPassword === 1) {
       boardE['threads'] = filterBoard;
       await boardE.save();
-      res.send('success');
+      res.json('success');
     } else {
-      res.send('incorrect password');
+      res.json('incorrect password');
     }
   };
 
@@ -181,7 +183,7 @@ const createNewThread = async (req, res) => {
       });
       boardE.threads = gg;
       boardE.save();
-      res.send('reported');
+      res.json('reported');
     } catch (error) {
       res.json({ error: 'could not post' });
     }
@@ -248,9 +250,9 @@ const createNewThread = async (req, res) => {
     if(checkPassword === 1) {
       boardE.threads = gg;
       await boardE.save();
-      res.send('success');
+      res.json('success');
     } else {
-      res.send('incorrect password');
+      res.json('incorrect password');
     }
   };
 
@@ -276,7 +278,7 @@ const createNewThread = async (req, res) => {
       });
       boardE.threads = gg;
       boardE.save();
-      res.send('reported');
+      res.json('reported');
     } catch (error) {
       res.json({ error: 'could not post' });
     }
