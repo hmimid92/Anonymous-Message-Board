@@ -88,7 +88,7 @@ suite('Functional Tests', function() {
         .end(function (err, res) {
           assert.equal(res.status, 200);
           assert.equal(res.type,'test/html');
-          assert.equal(res.body, 'reported');
+          assert.equal(res.text, 'reported');
           done();
         });
       });
@@ -105,7 +105,7 @@ suite('Functional Tests', function() {
         .end(function (err, res) {
           assert.equal(res.status, 200);
           assert.equal(res.type,'text/html');
-          assert.equal(res.body, 'reported');
+          assert.equal(res.text, 'reported');
           done();
         });
       });
@@ -125,7 +125,7 @@ suite('Functional Tests', function() {
           .end(function (err, res) {
             assert.equal(res.status, 200);
             assert.equal(res.type,'text/html');
-            assert.equal(res.body, 'incorrect password');
+            assert.equal(res.text, 'incorrect password');
             done();
           });
         });
@@ -142,7 +142,7 @@ suite('Functional Tests', function() {
           .end(function (err, res) {
             assert.equal(res.status, 200);
             assert.equal(res.type,'text/html');
-            assert.equal(res.body, 'success');
+            assert.equal(res.text, 'success');
             done();
           });
         });
@@ -161,7 +161,7 @@ suite('Functional Tests', function() {
           .end(function (err, res) {
             assert.equal(res.status, 200);
             assert.equal(res.type,'text/html');
-            assert.equal(res.body, 'incorrect password');
+            assert.equal(res.text, 'incorrect password');
             done();
           });
         });
@@ -180,7 +180,7 @@ suite('Functional Tests', function() {
           .end(function (err, res) {
             assert.equal(res.status, 200);
             assert.equal(res.type,'text/html');
-            assert.equal(res.body, 'success');
+            assert.equal(res.text, 'success');
             done();
           });
         });
