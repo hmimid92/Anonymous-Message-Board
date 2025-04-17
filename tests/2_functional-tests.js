@@ -87,7 +87,7 @@ suite('Functional Tests', function() {
         })
         .end(function (err, res) {
           assert.equal(res.status, 200);
-          assert.equal(res.type,'application/json');
+          assert.equal(res.type,'test/html');
           assert.equal(res.body, 'reported');
           done();
         });
@@ -104,7 +104,7 @@ suite('Functional Tests', function() {
         })
         .end(function (err, res) {
           assert.equal(res.status, 200);
-          assert.equal(res.type,'application/json');
+          assert.equal(res.type,'text/html');
           assert.equal(res.body, 'reported');
           done();
         });
@@ -124,7 +124,7 @@ suite('Functional Tests', function() {
           })
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.type,'application/json');
+            assert.equal(res.type,'text/html');
             assert.equal(res.body, 'incorrect password');
             done();
           });
@@ -141,7 +141,7 @@ suite('Functional Tests', function() {
           })
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.type,'application/json');
+            assert.equal(res.type,'text/html');
             assert.equal(res.body, 'success');
             done();
           });
@@ -160,7 +160,7 @@ suite('Functional Tests', function() {
           })
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.type,'application/json');
+            assert.equal(res.type,'text/html');
             assert.equal(res.body, 'incorrect password');
             done();
           });
@@ -179,7 +179,7 @@ suite('Functional Tests', function() {
           })
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.type,'application/json');
+            assert.equal(res.type,'text/html');
             assert.equal(res.body, 'success');
             done();
           });
