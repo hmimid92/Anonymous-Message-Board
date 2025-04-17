@@ -87,7 +87,7 @@ suite('Functional Tests', function() {
         })
         .end(function (err, res) {
           assert.equal(res.status, 200);
-          assert.equal(res.type,'test/html');
+          assert.equal(res.type,'text/html');
           assert.equal(res.text, 'reported');
           done();
         });
